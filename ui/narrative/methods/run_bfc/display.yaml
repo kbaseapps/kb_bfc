@@ -1,0 +1,49 @@
+#
+# define display information
+#
+name: Run BFC
+
+tooltip: |
+    Error correction for short illumina reads
+
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar methods that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            []
+        next:
+            []
+    methods:
+        related:
+            []
+        next:
+            []
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    input_reads_upa :
+        ui-name : |
+            Reads
+        short-hint : |
+            Reads to error correct
+        long-hint  : |
+            Paired-end illumina reads to error correct.
+    output_reads_name :
+        ui-name : |
+            Output Reads name
+        short-hint : |
+            Name of error corrected output reads
+        long-hint : |
+            Name to save the error corrected reads as.
+
+
+description : |
+    <p>This will use the BFC program to error correct short illumina reads.</p>
