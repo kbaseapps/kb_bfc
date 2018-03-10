@@ -9,6 +9,13 @@ MAINTAINER KBase Developer
 # RUN apt-get update
 
 
+
+WORKDIR /kb/module
+
+RUN git clone https://github.com/lh3/bfc.git \
+	&& cd bfc \
+	&& make
+
 # -----------------------------------------
 
 COPY ./ /kb/module
