@@ -26,6 +26,7 @@ class kb_bfc:
     GIT_COMMIT_HASH = ""
 
     #BEGIN_CLASS_HEADER
+    BFC = '/kb/module/kb_bfc/bfc/bfc'
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -51,6 +52,32 @@ class kb_bfc:
 
         print('Running run_bfc with params=')
         pprint(params)
+
+        bfc_cmd = [self.BFC]
+
+        #hardcoding a couple parameters
+        bfc_cmd.append('-t')
+        bfc_cmd.append('8')
+
+        bfc_cmd.append('/kb/module/kb_bfc/test/data/small_test_reads.fastq.gz')
+
+        bfc_cmd.append('>')
+        bfc_cmd.append('output_reads.fastq')
+
+        print('Running BFC:')
+        print('     ' + ' '.join(bfc_cmd))
+
+        p=subprocess.Popen(bfc_cmd, cwd=self.scratch, shell=False)
+        retcode = p.wait()
+
+        print('Return code: ' + str(retcode))
+
+        output = {'report_name': None, 'report_ref': None}
+        
+        return [output]
+
+
+
 
 
 

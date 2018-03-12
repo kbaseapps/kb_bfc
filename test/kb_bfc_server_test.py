@@ -76,7 +76,7 @@ class kb_bfcTest(unittest.TestCase):
         return self.__class__.ctx
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def test_your_method(self):
+    def test_bfc(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
         #                                  'objects': []})
@@ -86,4 +86,6 @@ class kb_bfcTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
+        params = {'input_reads_upa': '', 'workspace_name': self.getWsName(), 'output_reads_name':''}
+        self.getImpl().run_bfc(self.getContext(), params)
         pass
