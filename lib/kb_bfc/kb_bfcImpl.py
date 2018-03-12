@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 #BEGIN_HEADER
+import os
+import subprocess
+from pprint import pprint
 #END_HEADER
 
 
@@ -19,7 +22,7 @@ class kb_bfc:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
+    GIT_URL = "https://github.com/psdehal/kb_bfc"
     GIT_COMMIT_HASH = ""
 
     #BEGIN_CLASS_HEADER
@@ -29,8 +32,27 @@ class kb_bfc:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
+
+        self.scratch = os.path.abspath(config['scratch'])
+        self.callbackURL = os.environ['SDK_CALLBACK_URL']
+
+        if not os.path.exists(self.scratch):
+            os.makedirs(self.scratch)
+
         #END_CONSTRUCTOR
         pass
+
+    def run_bfc(self, ctx, params):
+        """
+        :param params: instance of type "BFCParams". Initial version has no
+        user parameters other than input reads and output reads name. 
+
+        """
+
+        print('Running run_bfc with params=')
+        pprint(params)
+
+
 
     def status(self, ctx):
         #BEGIN_STATUS
