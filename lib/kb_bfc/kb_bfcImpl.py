@@ -23,7 +23,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/psdehal/kb_bfc"
-    GIT_COMMIT_HASH = ""
+    GIT_COMMIT_HASH = "3f4234b860c40755dc6be1000939cadb546cc96f"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/kb_bfc/bfc/bfc'

@@ -16,6 +16,7 @@ RUN git clone https://github.com/lh3/bfc.git \
 	&& cd bfc \
 	&& make
 
+
 # -----------------------------------------
 
 COPY ./ /kb/module
