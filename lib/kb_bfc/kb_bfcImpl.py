@@ -61,6 +61,16 @@ class kb_bfc:
         pprint(params)
         bfc_cmd = [self.BFC]
 
+        #validate parameters
+        if 'workspace_name' not in params:
+            raise ValueError('workspace_name parameter is required')
+        if 'input_reads_upa' not in params:
+            raise ValueError('input_reads_upa parameter is required')
+        if 'output_reads_name' not in params:
+            raise ValueError('output_reads_name parameter is required')
+
+
+
         #hardcoding a couple parameters
         bfc_cmd.append('-t')
         bfc_cmd.append('8')
