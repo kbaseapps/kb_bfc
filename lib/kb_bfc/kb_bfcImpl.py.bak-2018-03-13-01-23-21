@@ -22,8 +22,8 @@ class kb_bfc:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "d9f669da1a5aebe43fd6801c4b5afcec2780edb0"
+    GIT_URL = "https://github.com/psdehal/kb_bfc"
+    GIT_COMMIT_HASH = "3f4234b860c40755dc6be1000939cadb546cc96f"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/kb_bfc/bfc/bfc'
@@ -43,22 +43,16 @@ class kb_bfc:
         #END_CONSTRUCTOR
         pass
 
-
     def run_bfc(self, ctx, params):
         """
-        :param params: instance of type "BFCParams" -> structure: parameter
-           "input_reads_upa" of type "reads_upa" (Insert your typespec
-           information here.), parameter "workspace_name" of String,
-           parameter "output_reads_name" of String
-        :returns: instance of type "BFCResults" -> structure: parameter
-           "report_name" of String, parameter "report_ref" of String
+        :param params: instance of type "BFCParams". Initial version has no
+        user parameters other than input reads and output reads name. 
+
         """
-        # ctx is the context object
-        # return variables are: results
-        #BEGIN run_bfc
-        
+
         print('Running run_bfc with params=')
         pprint(params)
+
         bfc_cmd = [self.BFC]
 
         #hardcoding a couple parameters
@@ -73,14 +67,15 @@ class kb_bfc:
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))
 
-        #END run_bfc
+        p=subprocess.Popen(bfc_cmd, cwd=self.scratch, shell=False)
+        retcode = p.wait()
 
-        # At some point might do deeper type checking...
-        if not isinstance(results, dict):
-            raise ValueError('Method run_bfc return value ' +
-                             'results is not type dict as required.')
-        # return the results
-        return [results]
+        print('Return code: ' + str(retcode))
+
+        output = {'report_name': None, 'report_ref': None}
+
+        return [output]
+
 
     def status(self, ctx):
         #BEGIN_STATUS

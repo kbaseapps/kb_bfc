@@ -33,6 +33,19 @@ class kb_bfc(object):
             trust_all_ssl_certificates=trust_all_ssl_certificates,
             auth_svc=auth_svc)
 
+    def run_bfc(self, params, context=None):
+        """
+        :param params: instance of type "BFCParams" -> structure: parameter
+           "input_reads_upa" of type "reads_upa" (Insert your typespec
+           information here.), parameter "workspace_name" of String,
+           parameter "output_reads_name" of String
+        :returns: instance of type "BFCResults" -> structure: parameter
+           "report_name" of String, parameter "report_ref" of String
+        """
+        return self._client.call_method(
+            'kb_bfc.run_bfc',
+            [params], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('kb_bfc.status',
                                         [], self._service_ver, context)
