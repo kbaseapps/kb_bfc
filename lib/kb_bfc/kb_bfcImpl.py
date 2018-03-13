@@ -26,7 +26,7 @@ class kb_bfc:
     GIT_COMMIT_HASH = "99aa29cad215a86450da6d03d9b62d15a95d484c"
 
     #BEGIN_CLASS_HEADER
-    BFC = '/kb/module/kb_bfc/bfc/bfc'
+    BFC = '/kb/module/bfc/bfc'
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -65,7 +65,7 @@ class kb_bfc:
         bfc_cmd.append('-t')
         bfc_cmd.append('8')
 
-        bfc_cmd.append('/kb/module/kb_bfc/test/data/small_test_reads.fastq.gz')
+        bfc_cmd.append('/kb/module/test/data/small_test_reads.fastq.gz')
 
         bfc_cmd.append('>')
         bfc_cmd.append('output_reads.fastq')
