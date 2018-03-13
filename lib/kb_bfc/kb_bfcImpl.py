@@ -73,12 +73,8 @@ class kb_bfc:
         print('Return code: ' + str(retcode))
 
         output = {'report_name': None, 'report_ref': None}
-        
+
         return [output]
-
-
-
-
 
 
     def status(self, ctx):
