@@ -23,7 +23,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "d9f669da1a5aebe43fd6801c4b5afcec2780edb0"
+    GIT_COMMIT_HASH = "99aa29cad215a86450da6d03d9b62d15a95d484c"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/kb_bfc/bfc/bfc'
@@ -73,6 +73,13 @@ class kb_bfc:
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))
 
+        p=subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
+        retcode = p.wait()
+
+        print('Return code: ' + str(retcode))
+
+        results = {'report_name': None, 'report_ref': None}
+
         #END run_bfc
 
         # At some point might do deeper type checking...
@@ -81,7 +88,6 @@ class kb_bfc:
                              'results is not type dict as required.')
         # return the results
         return [results]
-
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
