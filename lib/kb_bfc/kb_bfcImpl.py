@@ -2,6 +2,7 @@
 #BEGIN_HEADER
 import os
 import subprocess
+import shutil
 
 
 from pprint import pprint
@@ -65,6 +66,7 @@ class kb_bfc:
         print('Running run_bfc with params=')
         pprint(params)
         bfc_cmd = [self.BFC]
+        shared_dir = "/kb/module/work/tmp"
 
         #validate parameters
         if 'workspace_name' not in params:
@@ -75,7 +77,8 @@ class kb_bfc:
             raise ValueError('output_reads_name parameter is required')
 
         input_reads_upa = params['input_reads_upa']
-        output_reads_name = params['output_reads_name']
+        output_reads_name = params['output_reads_name'] + ".fastq"
+        workspace_name = params['workspace_name']
 
         #get the reads library as gzipped interleaved file
         reads_params = {'read_libraries': [input_reads_upa],
@@ -105,6 +108,15 @@ class kb_bfc:
         retcode = p.wait()
 
         print('Return code: ' + str(retcode))
+
+        #upload reads output
+        output_reads_file = os.path.join(shared_dir, os.path.basename(output_reads_name))
+        shutil.copy(output_reads_file, output_reads_name)
+        out_reads_upa = ru.upload_reads({'fwd_file': output_reads_file,
+                                        'interleaved': 1, 'wsname': workspace_name,
+                                        'name': output_reads_name,
+                                        'source_reads_ref': input_reads_upa
+                                        })
 
         results = {'report_name': None, 'report_ref': None}
 
