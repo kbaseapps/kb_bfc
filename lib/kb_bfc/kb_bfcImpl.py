@@ -2,7 +2,12 @@
 #BEGIN_HEADER
 import os
 import subprocess
+
+
 from pprint import pprint
+from ReadsUtils.ReadsUtilsClient import ReadsUtils
+
+
 #END_HEADER
 
 
@@ -69,16 +74,29 @@ class kb_bfc:
         if 'output_reads_name' not in params:
             raise ValueError('output_reads_name parameter is required')
 
+        input_reads_upa = params['input_reads_upa']
+        output_reads_name = params['output_reads_name']
 
+        #get the reads library as gzipped interleaved file
+        reads_params = {'read_libraries': [input_reads_upa],
+                        'interleaved': 'true',
+                        'gzipped': 'true' 
+                        }
+
+        ru = ReadsUtils(self.callbackURL)
+        reads = ru.download_reads(reads_params)['files']
+        input_reads_file = reads[input_reads_upa]['files']['fwd']
+        print('Input reads files:')
+        pprint('     ' + input_reads_file)
 
         #hardcoding a couple parameters
         bfc_cmd.append('-t')
         bfc_cmd.append('8')
 
-        bfc_cmd.append('/kb/module/test/data/small_test_reads.fastq.gz')
+        bfc_cmd.append(input_reads_file)
 
         bfc_cmd.append('>')
-        bfc_cmd.append('output_reads.fastq')
+        bfc_cmd.append(output_reads_name)
 
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))

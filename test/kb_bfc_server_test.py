@@ -4,6 +4,8 @@ import os  # noqa: F401
 import json  # noqa: F401
 import time
 import requests
+import shutil
+
 
 from os import environ
 try:
@@ -17,6 +19,7 @@ from biokbase.workspace.client import Workspace as workspaceService
 from kb_bfc.kb_bfcImpl import kb_bfc
 from kb_bfc.kb_bfcServer import MethodContext
 from kb_bfc.authclient import KBaseAuth as _KBaseAuth
+from ReadsUtils.ReadsUtilsClient import ReadsUtils
 
 
 class kb_bfcTest(unittest.TestCase):
@@ -75,6 +78,23 @@ class kb_bfcTest(unittest.TestCase):
     def getContext(self):
         return self.__class__.ctx
 
+    def getPairedEndLibInfo(self):
+        input_reads_file = '/kb/module/test/data/small_test_reads.fastq'
+        shared_dir = "/kb/module/work/tmp"
+        input_file = os.path.join(shared_dir, os.path.basename(input_reads_file))
+        shutil.copy(input_reads_file, input_file)
+
+        ru = ReadsUtils(os.environ['SDK_CALLBACK_URL'])
+
+        paired_end_ref = ru.upload_reads({'fwd_file': input_file,
+                                            'sequencing_tech': 'artificial reads',
+                                            'interleaved': 1, 'wsname': self.getWsName(),
+                                            'name': 'test.pe.reads'})['obj_ref']
+        
+        new_obj_info = self.wsClient.get_object_info_new({'objects': [{'ref': paired_end_ref}]})
+        return new_obj_info[0]
+
+
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_bfc(self):
         # Prepare test objects in workspace if needed using
@@ -86,6 +106,15 @@ class kb_bfcTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        params = {'input_reads_upa': '', 'workspace_name': self.getWsName(), 'output_reads_name':''}
+
+        # figure out where the test data lives
+        pe_lib_info = self.getPairedEndLibInfo()
+        pprint(pe_lib_info)
+
+
+        params = {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
+                  'workspace_name': self.getWsName(), 
+                  'output_reads_name':'test_out'}
+
         self.getImpl().run_bfc(self.getContext(), params)
         pass
