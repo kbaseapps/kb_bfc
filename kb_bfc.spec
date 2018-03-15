@@ -7,6 +7,10 @@ module kb_bfc {
         Insert your typespec information here.
     */
 
+    /* A boolean. 0 = false, anything else = true. */
+    typedef int bool;
+
+    /* unique permanent address of reads object */
     typedef string reads_upa;
 
     typedef structure {
@@ -14,6 +18,7 @@ module kb_bfc {
     	string workspace_name;
     	string output_reads_name;
       int kmer_size;
+      bool drop_unique_kmer_reads;
     } BFCParams;
 
     typedef structure {

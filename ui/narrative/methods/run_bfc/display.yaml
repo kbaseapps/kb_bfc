@@ -48,6 +48,11 @@ parameters :
             Kmer Size
         short-hint : |
             Size of kmer in bp, must be <= 63, defualt 33
+    drop_unique_kmer_reads :
+        ui-name : |
+            Drop reads with unique Kmers?
+        short-hint : |
+            reads containing unique kmers will be dropped if checked.
 
 
 description : |

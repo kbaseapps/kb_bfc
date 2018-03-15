@@ -126,7 +126,9 @@ BFCParams is a reference to a hash where the following keys are defined:
 	workspace_name has a value which is a string
 	output_reads_name has a value which is a string
 	kmer_size has a value which is an int
+	drop_unique_kmer_reads has a value which is a kb_bfc.bool
 reads_upa is a string
+bool is an int
 BFCResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
 	report_ref has a value which is a string
@@ -144,7 +146,9 @@ BFCParams is a reference to a hash where the following keys are defined:
 	workspace_name has a value which is a string
 	output_reads_name has a value which is a string
 	kmer_size has a value which is an int
+	drop_unique_kmer_reads has a value which is a kb_bfc.bool
 reads_upa is a string
+bool is an int
 BFCResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
 	report_ref has a value which is a string
@@ -295,6 +299,37 @@ sub _validate_version {
 
 
 
+=head2 bool
+
+=over 4
+
+
+
+=item Description
+
+A boolean. 0 = false, anything else = true.
+
+
+=item Definition
+
+=begin html
+
+<pre>
+an int
+</pre>
+
+=end html
+
+=begin text
+
+an int
+
+=end text
+
+=back
+
+
+
 =head2 reads_upa
 
 =over 4
@@ -303,7 +338,7 @@ sub _validate_version {
 
 =item Description
 
-Insert your typespec information here.
+unique permanent address of reads object
 
 
 =item Definition
@@ -342,6 +377,7 @@ input_reads_upa has a value which is a kb_bfc.reads_upa
 workspace_name has a value which is a string
 output_reads_name has a value which is a string
 kmer_size has a value which is an int
+drop_unique_kmer_reads has a value which is a kb_bfc.bool
 
 </pre>
 
@@ -354,6 +390,7 @@ input_reads_upa has a value which is a kb_bfc.reads_upa
 workspace_name has a value which is a string
 output_reads_name has a value which is a string
 kmer_size has a value which is an int
+drop_unique_kmer_reads has a value which is a kb_bfc.bool
 
 
 =end text

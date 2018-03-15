@@ -49,6 +49,18 @@
               "text_options": {
                   "validate_as": "int"
           }
+        },
+        {
+          "id": "drop_unique_kmer_reads",
+          "optional": true,
+          "advanced": true,
+          "allow_multiple": false,
+          "default_values": ["0"],
+          "field_type": "checkbox",
+          "checkbox_options": {
+              "checked_value": "1",
+              "unchecked_value": "0"
+          }
         }
     ],
     "behavior": {

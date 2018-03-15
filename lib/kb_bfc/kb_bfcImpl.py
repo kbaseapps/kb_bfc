@@ -29,7 +29,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "378996bd446fad3a38c9908c6e1cc76e607cc30e"
+    GIT_COMMIT_HASH = "d8ffc437f903c6e462afd3bf9a6e7834eccdd2f5"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -54,10 +54,11 @@ class kb_bfc:
     def run_bfc(self, ctx, params):
         """
         :param params: instance of type "BFCParams" -> structure: parameter
-           "input_reads_upa" of type "reads_upa" (Insert your typespec
-           information here.), parameter "workspace_name" of String,
-           parameter "output_reads_name" of String, parameter "kmer_size" of
-           Long
+           "input_reads_upa" of type "reads_upa" (unique permanent address of
+           reads object), parameter "workspace_name" of String, parameter
+           "output_reads_name" of String, parameter "kmer_size" of Long,
+           parameter "drop_unique_kmer_reads" of type "bool" (A boolean. 0 =
+           false, anything else = true.)
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
@@ -85,6 +86,10 @@ class kb_bfc:
                     bfc_cmd.append(str(params['kmer_size']))
                 else:
                     raise ValueError('kmer_size must be <= 63')
+
+        if 'drop_unique_kmer_reads' in params:
+            if params['drop_unique_kmer_reads']:
+                bfc_cmd.append('-1')
 
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name'] + ".fastq"

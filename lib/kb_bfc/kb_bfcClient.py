@@ -36,10 +36,11 @@ class kb_bfc(object):
     def run_bfc(self, params, context=None):
         """
         :param params: instance of type "BFCParams" -> structure: parameter
-           "input_reads_upa" of type "reads_upa" (Insert your typespec
-           information here.), parameter "workspace_name" of String,
-           parameter "output_reads_name" of String, parameter "kmer_size" of
-           Long
+           "input_reads_upa" of type "reads_upa" (unique permanent address of
+           reads object), parameter "workspace_name" of String, parameter
+           "output_reads_name" of String, parameter "kmer_size" of Long,
+           parameter "drop_unique_kmer_reads" of type "bool" (A boolean. 0 =
+           false, anything else = true.)
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
