@@ -80,8 +80,11 @@ class kb_bfc:
 
         if 'kmer_size' in params:
             if params['kmer_size']:
-                bfc_cmd.append('-k')
-                bfc_cmd.append(str(params['kmer_size']))
+                if params['kmer_size'] < 64:
+                    bfc_cmd.append('-k')
+                    bfc_cmd.append(str(params['kmer_size']))
+                else:
+                    raise ValueError('kmer_size must be <= 63')
 
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name'] + ".fastq"

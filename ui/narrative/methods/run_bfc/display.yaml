@@ -47,7 +47,7 @@ parameters :
         ui-name : |
             Kmer Size
         short-hint : |
-            Size of kmer in bp
+            Size of kmer in bp, must be <= 63, defualt 33
 
 
 description : |
