@@ -33,6 +33,7 @@ class kb_bfc:
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
+    SEQTK = '/kb/module/seqtk/seqtk'
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -62,7 +63,7 @@ class kb_bfc:
         # ctx is the context object
         # return variables are: results
         #BEGIN run_bfc
-        
+
         print('Running run_bfc with params=')
         pprint(params)
         bfc_cmd = [self.BFC]
@@ -83,7 +84,7 @@ class kb_bfc:
         #get the reads library as gzipped interleaved file
         reads_params = {'read_libraries': [input_reads_upa],
                         'interleaved': 'true',
-                        'gzipped': 'true' 
+                        'gzipped': 'true'
                         }
 
         ru = ReadsUtils(self.callbackURL)
@@ -107,11 +108,23 @@ class kb_bfc:
         p=subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
         retcode = p.wait()
 
-        print('Return code: ' + str(retcode))
+        if p.returncode != 0:
+            raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
+
+        #drop non-paired reads using seqtk
+        output_reads_seqtk_file  = params['output_reads_name'] + ".seqtk" + ".fastq"
+        seqtk_cmd = [self.SEQTK, "dropse", output_reads_name, ">", output_reads_seqtk_file]
+
+        p = subprocess.Popen(" ".join(seqtk_cmd), cwd=self.scratch, shell=True)
+        retcode = p.wait()
+
+        if p.returncode != 0:
+            raise ValueError('Error running seqtx, return code: ' + str(retcode) + "\n")
 
         #upload reads output
-        output_reads_file = os.path.join(shared_dir, os.path.basename(output_reads_name))
-        shutil.copy(output_reads_file, output_reads_name)
+        output_reads_file = os.path.join(shared_dir, os.path.basename(output_reads_seqtk_file))
+        shutil.copy(output_reads_file, output_reads_seqtk_file)
+
         out_reads_upa = ru.upload_reads({'fwd_file': output_reads_file,
                                         'interleaved': 1, 'wsname': workspace_name,
                                         'name': output_reads_name,

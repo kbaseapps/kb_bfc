@@ -16,6 +16,10 @@ RUN git clone https://github.com/lh3/bfc.git \
 	&& cd bfc \
 	&& make
 
+RUN git clone https://github.com/lh3/seqtk \
+	&& cd seqtk \
+	&& make
+
 
 # -----------------------------------------
 

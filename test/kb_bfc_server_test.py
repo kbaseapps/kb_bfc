@@ -90,7 +90,7 @@ class kb_bfcTest(unittest.TestCase):
                                             'sequencing_tech': 'artificial reads',
                                             'interleaved': 1, 'wsname': self.getWsName(),
                                             'name': 'test.pe.reads'})['obj_ref']
-        
+
         new_obj_info = self.wsClient.get_object_info_new({'objects': [{'ref': paired_end_ref}]})
         return new_obj_info[0]
 
@@ -113,7 +113,7 @@ class kb_bfcTest(unittest.TestCase):
 
 
         params = {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
-                  'workspace_name': self.getWsName(), 
+                  'workspace_name': self.getWsName(),
                   'output_reads_name':'test_out'}
 
         self.getImpl().run_bfc(self.getContext(), params)
