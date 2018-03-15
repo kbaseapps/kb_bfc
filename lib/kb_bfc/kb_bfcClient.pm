@@ -125,6 +125,7 @@ BFCParams is a reference to a hash where the following keys are defined:
 	input_reads_upa has a value which is a kb_bfc.reads_upa
 	workspace_name has a value which is a string
 	output_reads_name has a value which is a string
+	kmer_size has a value which is an int
 reads_upa is a string
 BFCResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -142,6 +143,7 @@ BFCParams is a reference to a hash where the following keys are defined:
 	input_reads_upa has a value which is a kb_bfc.reads_upa
 	workspace_name has a value which is a string
 	output_reads_name has a value which is a string
+	kmer_size has a value which is an int
 reads_upa is a string
 BFCResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -339,6 +341,7 @@ a reference to a hash where the following keys are defined:
 input_reads_upa has a value which is a kb_bfc.reads_upa
 workspace_name has a value which is a string
 output_reads_name has a value which is a string
+kmer_size has a value which is an int
 
 </pre>
 
@@ -350,6 +353,7 @@ a reference to a hash where the following keys are defined:
 input_reads_upa has a value which is a kb_bfc.reads_upa
 workspace_name has a value which is a string
 output_reads_name has a value which is a string
+kmer_size has a value which is an int
 
 
 =end text

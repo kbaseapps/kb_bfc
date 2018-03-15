@@ -38,7 +38,8 @@ class kb_bfc(object):
         :param params: instance of type "BFCParams" -> structure: parameter
            "input_reads_upa" of type "reads_upa" (Insert your typespec
            information here.), parameter "workspace_name" of String,
-           parameter "output_reads_name" of String
+           parameter "output_reads_name" of String, parameter "kmer_size" of
+           Long
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """

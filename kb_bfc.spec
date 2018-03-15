@@ -13,6 +13,7 @@ module kb_bfc {
     	reads_upa input_reads_upa;
     	string workspace_name;
     	string output_reads_name;
+      int kmer_size;
     } BFCParams;
 
     typedef structure {

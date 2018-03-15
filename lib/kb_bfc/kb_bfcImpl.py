@@ -29,7 +29,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "99aa29cad215a86450da6d03d9b62d15a95d484c"
+    GIT_COMMIT_HASH = "378996bd446fad3a38c9908c6e1cc76e607cc30e"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -56,7 +56,8 @@ class kb_bfc:
         :param params: instance of type "BFCParams" -> structure: parameter
            "input_reads_upa" of type "reads_upa" (Insert your typespec
            information here.), parameter "workspace_name" of String,
-           parameter "output_reads_name" of String
+           parameter "output_reads_name" of String, parameter "kmer_size" of
+           Long
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
@@ -76,6 +77,11 @@ class kb_bfc:
             raise ValueError('input_reads_upa parameter is required')
         if 'output_reads_name' not in params:
             raise ValueError('output_reads_name parameter is required')
+
+        if 'kmer_size' in params:
+            if params['kmer_size']:
+                bfc_cmd.append('-k')
+                bfc_cmd.append(str(params['kmer_size']))
 
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name'] + ".fastq"

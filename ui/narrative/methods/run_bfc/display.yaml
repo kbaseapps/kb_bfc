@@ -43,6 +43,11 @@ parameters :
             Name of error corrected output reads
         long-hint : |
             Name to save the error corrected reads as.
+    kmer_size :
+        ui-name : |
+            Kmer Size : |
+        short-hint : |
+            Size of kmer in bp
 
 
 description : |

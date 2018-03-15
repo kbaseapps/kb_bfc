@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "input_reads_upa",
     "workspace_name",
-    "output_reads_name"
+    "output_reads_name",
+    "kmer_size"
 })
 public class BFCParams {
 
@@ -31,6 +32,8 @@ public class BFCParams {
     private String workspaceName;
     @JsonProperty("output_reads_name")
     private String outputReadsName;
+    @JsonProperty("kmer_size")
+    private Long kmerSize;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("input_reads_upa")
@@ -78,6 +81,21 @@ public class BFCParams {
         return this;
     }
 
+    @JsonProperty("kmer_size")
+    public Long getKmerSize() {
+        return kmerSize;
+    }
+
+    @JsonProperty("kmer_size")
+    public void setKmerSize(Long kmerSize) {
+        this.kmerSize = kmerSize;
+    }
+
+    public BFCParams withKmerSize(Long kmerSize) {
+        this.kmerSize = kmerSize;
+        return this;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -90,7 +108,7 @@ public class BFCParams {
 
     @Override
     public String toString() {
-        return ((((((((("BFCParams"+" [inputReadsUpa=")+ inputReadsUpa)+", workspaceName=")+ workspaceName)+", outputReadsName=")+ outputReadsName)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((("BFCParams"+" [inputReadsUpa=")+ inputReadsUpa)+", workspaceName=")+ workspaceName)+", outputReadsName=")+ outputReadsName)+", kmerSize=")+ kmerSize)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

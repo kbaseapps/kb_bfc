@@ -9,7 +9,7 @@
         "input": null,
         "output": "no-display"
     },
-    "parameters": [ 
+    "parameters": [
         {
             "id": "input_reads_upa",
             "optional": false,
@@ -18,7 +18,7 @@
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [ 
+                "valid_ws_types": [
                     "KBaseFile.PairedEndLibrary",
                     "KBaseAssembly.PairedEndLibrary"
                 ]
@@ -33,11 +33,22 @@
             "field_type": "text",
             "text_options": {
                 "is_output_name": true,
-                "valid_ws_types": [ 
+                "valid_ws_types": [
                     "KBaseFile.PairedEndLibrary",
                     "KBaseAssembly.PairedEndLibrary"
                 ]
             }
+        },
+        {
+          "id": "kmer_size",
+          "optional": true,
+          "advanced": true,
+          "allow_multiple": false,
+          "default_values": ["33"],
+          "field_type": "text",
+              "text_options": {
+                  "validate_as": "int"
+          }
         }
     ],
     "behavior": {
@@ -58,6 +69,10 @@
                 {
                     "input_parameter": "output_reads_name",
                     "target_property": "output_reads_name"
+                },
+                {
+                    "input_parameter": "kmer_size",
+                    "target_property": "kmer_size"
                 }
             ],
             "output_mapping": [
