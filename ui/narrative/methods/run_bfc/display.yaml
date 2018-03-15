@@ -45,7 +45,7 @@ parameters :
             Name to save the error corrected reads as.
     kmer_size :
         ui-name : |
-            Kmer Size : |
+            Kmer Size
         short-hint : |
             Size of kmer in bp
 
