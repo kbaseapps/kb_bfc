@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Run BFC
+name: BFC - Bloom Filter Read Error Correction
 
 tooltip: |
     Error correction for short illumina reads

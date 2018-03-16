@@ -34,6 +34,8 @@ class kb_bfc:
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
     SEQTK = '/kb/module/seqtk/seqtk'
+
+    THREADS = 8
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -109,7 +111,7 @@ class kb_bfc:
 
         #hardcoding a couple parameters
         bfc_cmd.append('-t')
-        bfc_cmd.append('8')
+        bfc_cmd.append(self.THREADS)
 
         bfc_cmd.append(input_reads_file)
 
