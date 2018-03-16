@@ -94,7 +94,11 @@ class kb_bfc:
                 bfc_cmd.append(str('-1'))
 
         input_reads_upa = params['input_reads_upa']
-        output_reads_name = params['output_reads_name'] + ".fastq"
+        output_reads_name = params['output_reads_name']
+
+        output_reads_file = os.path.join(shared_dir, output_reads_name + ".fq")
+        bfc_output_file = os.path.join(shared_dir, "bfc_" + output_reads_name + ".fq")
+        seqtk_output_file = os.path.join(shared_dir, "seqtk_bfc_" + output_reads_name + ".fq")
         workspace_name = params['workspace_name']
 
         #get the reads library as gzipped interleaved file
@@ -116,7 +120,7 @@ class kb_bfc:
         bfc_cmd.append(input_reads_file)
 
         bfc_cmd.append('>')
-        bfc_cmd.append(output_reads_name)
+        bfc_cmd.append(bfc_output_file)
 
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))
@@ -128,18 +132,17 @@ class kb_bfc:
             raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
 
         #drop non-paired reads using seqtk
-        output_reads_seqtk_file  = params['output_reads_name'] + ".seqtk" + ".fastq"
-        seqtk_cmd = [self.SEQTK, "dropse", output_reads_name, ">", output_reads_seqtk_file]
+
+        seqtk_cmd = [self.SEQTK, "dropse", bfc_output_file, ">", seqtk_output_file]
 
         p = subprocess.Popen(" ".join(seqtk_cmd), cwd=self.scratch, shell=True)
         retcode = p.wait()
 
         if p.returncode != 0:
-            raise ValueError('Error running seqtx, return code: ' + str(retcode) + "\n")
+            raise ValueError('Error running seqtk, return code: ' + str(retcode) + "\n")
 
         #upload reads output
-        output_reads_file = os.path.join(shared_dir, os.path.basename(output_reads_seqtk_file))
-        shutil.copy(output_reads_file, output_reads_seqtk_file)
+        shutil.copy(seqtk_output_file, output_reads_file)
 
         out_reads_upa = ru.upload_reads({'fwd_file': output_reads_file,
                                         'interleaved': 1, 'wsname': workspace_name,
