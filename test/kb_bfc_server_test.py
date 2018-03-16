@@ -80,6 +80,7 @@ class kb_bfcTest(unittest.TestCase):
 
     def getPairedEndLibInfo(self):
         input_reads_file = '/kb/module/test/data/small_test_reads.fastq'
+        #input_reads_file = '/kb/module/test/data/12040.half_million.fastq'
         shared_dir = "/kb/module/work/tmp"
         input_file = os.path.join(shared_dir, os.path.basename(input_reads_file))
         shutil.copy(input_reads_file, input_file)
@@ -115,7 +116,7 @@ class kb_bfcTest(unittest.TestCase):
         params = {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
                   'workspace_name': self.getWsName(),
                   'output_reads_name':'test_out', 'kmer_size':45,
-                  'drop_unique_kmer_reads': "1" }
+                  'drop_unique_kmer_reads': '1' }
 
         self.getImpl().run_bfc(self.getContext(), params)
         pass

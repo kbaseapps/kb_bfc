@@ -91,7 +91,7 @@ class kb_bfc:
 
         if 'drop_unique_kmer_reads' in params:
             if params['drop_unique_kmer_reads']:
-                bfc_cmd.append('-1')
+                bfc_cmd.append(str('-1'))
 
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name'] + ".fastq"
@@ -111,7 +111,7 @@ class kb_bfc:
 
         #hardcoding a couple parameters
         bfc_cmd.append('-t')
-        bfc_cmd.append(self.THREADS)
+        bfc_cmd.append(str(self.THREADS))
 
         bfc_cmd.append(input_reads_file)
 
