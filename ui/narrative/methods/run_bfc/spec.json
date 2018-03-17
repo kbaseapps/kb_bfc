@@ -85,6 +85,10 @@
                 {
                     "input_parameter": "kmer_size",
                     "target_property": "kmer_size"
+                },
+                {
+                    "input_parameter": "drop_unique_kmer_reads",
+                    "target_property": "drop_unique_kmer_reads"
                 }
             ],
             "output_mapping": [
