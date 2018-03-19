@@ -40,7 +40,8 @@ class kb_bfc(object):
            reads object), parameter "workspace_name" of String, parameter
            "output_reads_name" of String, parameter "kmer_size" of Long,
            parameter "drop_unique_kmer_reads" of type "bool" (A boolean. 0 =
-           false, anything else = true.)
+           false, anything else = true.), parameter "est_genome_size" of
+           Long, parameter "est_genome_size_units" of String
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """

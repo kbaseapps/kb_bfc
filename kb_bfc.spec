@@ -19,6 +19,8 @@ module kb_bfc {
     	string output_reads_name;
       int kmer_size;
       bool drop_unique_kmer_reads;
+      int est_genome_size;
+      string est_genome_size_units;
     } BFCParams;
 
     typedef structure {

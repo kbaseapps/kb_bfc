@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "workspace_name",
     "output_reads_name",
     "kmer_size",
-    "drop_unique_kmer_reads"
+    "drop_unique_kmer_reads",
+    "est_genome_size",
+    "est_genome_size_units"
 })
 public class BFCParams {
 
@@ -37,6 +39,10 @@ public class BFCParams {
     private Long kmerSize;
     @JsonProperty("drop_unique_kmer_reads")
     private Long dropUniqueKmerReads;
+    @JsonProperty("est_genome_size")
+    private Long estGenomeSize;
+    @JsonProperty("est_genome_size_units")
+    private String estGenomeSizeUnits;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("input_reads_upa")
@@ -114,6 +120,36 @@ public class BFCParams {
         return this;
     }
 
+    @JsonProperty("est_genome_size")
+    public Long getEstGenomeSize() {
+        return estGenomeSize;
+    }
+
+    @JsonProperty("est_genome_size")
+    public void setEstGenomeSize(Long estGenomeSize) {
+        this.estGenomeSize = estGenomeSize;
+    }
+
+    public BFCParams withEstGenomeSize(Long estGenomeSize) {
+        this.estGenomeSize = estGenomeSize;
+        return this;
+    }
+
+    @JsonProperty("est_genome_size_units")
+    public String getEstGenomeSizeUnits() {
+        return estGenomeSizeUnits;
+    }
+
+    @JsonProperty("est_genome_size_units")
+    public void setEstGenomeSizeUnits(String estGenomeSizeUnits) {
+        this.estGenomeSizeUnits = estGenomeSizeUnits;
+    }
+
+    public BFCParams withEstGenomeSizeUnits(String estGenomeSizeUnits) {
+        this.estGenomeSizeUnits = estGenomeSizeUnits;
+        return this;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -126,7 +162,7 @@ public class BFCParams {
 
     @Override
     public String toString() {
-        return ((((((((((((("BFCParams"+" [inputReadsUpa=")+ inputReadsUpa)+", workspaceName=")+ workspaceName)+", outputReadsName=")+ outputReadsName)+", kmerSize=")+ kmerSize)+", dropUniqueKmerReads=")+ dropUniqueKmerReads)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((("BFCParams"+" [inputReadsUpa=")+ inputReadsUpa)+", workspaceName=")+ workspaceName)+", outputReadsName=")+ outputReadsName)+", kmerSize=")+ kmerSize)+", dropUniqueKmerReads=")+ dropUniqueKmerReads)+", estGenomeSize=")+ estGenomeSize)+", estGenomeSizeUnits=")+ estGenomeSizeUnits)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

@@ -30,7 +30,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "d8ffc437f903c6e462afd3bf9a6e7834eccdd2f5"
+    GIT_COMMIT_HASH = "4807d73b84af6bd6583dd2db8dc7d04b8e15efc3"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -61,7 +61,8 @@ class kb_bfc:
            reads object), parameter "workspace_name" of String, parameter
            "output_reads_name" of String, parameter "kmer_size" of Long,
            parameter "drop_unique_kmer_reads" of type "bool" (A boolean. 0 =
-           false, anything else = true.)
+           false, anything else = true.), parameter "est_genome_size" of
+           Long, parameter "est_genome_size_units" of String
         :returns: instance of type "BFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
@@ -81,6 +82,17 @@ class kb_bfc:
             raise ValueError('input_reads_upa parameter is required')
         if 'output_reads_name' not in params:
             raise ValueError('output_reads_name parameter is required')
+
+        if 'est_genome_size' in params:
+            if params['est_genome_size']:
+                if 'est_genome_size_units' in params:
+                    if params['est_genome_size_units'] in ["G", "M", "K", "g", "m", "k"]:
+                        bfc_cmd.append('-s')
+                        bfc_cmd.append(str(params['est_genome_size']) + str(params['est_genome_size_units']))
+                    else:
+                        raise ValueError('est_genome_size_units must be G, M or K')
+                else:
+                    raise ValueError('est_genome_size_units must be set')
 
         if 'kmer_size' in params:
             if params['kmer_size']:

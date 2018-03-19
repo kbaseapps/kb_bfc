@@ -127,6 +127,8 @@ BFCParams is a reference to a hash where the following keys are defined:
 	output_reads_name has a value which is a string
 	kmer_size has a value which is an int
 	drop_unique_kmer_reads has a value which is a kb_bfc.bool
+	est_genome_size has a value which is an int
+	est_genome_size_units has a value which is a string
 reads_upa is a string
 bool is an int
 BFCResults is a reference to a hash where the following keys are defined:
@@ -147,6 +149,8 @@ BFCParams is a reference to a hash where the following keys are defined:
 	output_reads_name has a value which is a string
 	kmer_size has a value which is an int
 	drop_unique_kmer_reads has a value which is a kb_bfc.bool
+	est_genome_size has a value which is an int
+	est_genome_size_units has a value which is a string
 reads_upa is a string
 bool is an int
 BFCResults is a reference to a hash where the following keys are defined:
@@ -378,6 +382,8 @@ workspace_name has a value which is a string
 output_reads_name has a value which is a string
 kmer_size has a value which is an int
 drop_unique_kmer_reads has a value which is a kb_bfc.bool
+est_genome_size has a value which is an int
+est_genome_size_units has a value which is a string
 
 </pre>
 
@@ -391,6 +397,8 @@ workspace_name has a value which is a string
 output_reads_name has a value which is a string
 kmer_size has a value which is an int
 drop_unique_kmer_reads has a value which is a kb_bfc.bool
+est_genome_size has a value which is an int
+est_genome_size_units has a value which is a string
 
 
 =end text

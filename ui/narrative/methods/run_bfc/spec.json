@@ -40,6 +40,40 @@
             }
         },
         {
+          "id": "est_genome_size",
+          "optional": true,
+          "advanced": true,
+          "allow_multiple": false,
+          "default_values": [ "" ],
+          "field_type": "text",
+          "text_options": {
+              "validate_as": "int"
+          }
+        },
+        {
+          "id": "est_genome_size_units",
+          "optional": true,
+          "advanced": true,
+          "allow_multiple": false,
+          "default_values": [ "G" ],
+          "field_type": "dropdown",
+          "dropdown_options":{
+            "options": [{
+                "value": "G",
+                "display": "gigabases"
+              },
+              {
+                "value": "M",
+                "display": "megabases"
+              },
+              {
+                "value": "K",
+                "display": "kilobases"
+              }
+            ]
+          }
+        },
+        {
           "id": "kmer_size",
           "optional": true,
           "advanced": true,
@@ -81,6 +115,14 @@
                 {
                     "input_parameter": "output_reads_name",
                     "target_property": "output_reads_name"
+                },
+                {
+                    "input_parameter": "est_genome_size",
+                    "target_property": "est_genome_size"
+                },
+                {
+                    "input_parameter": "est_genome_size_units",
+                    "target_property": "est_genome_size_units"
                 },
                 {
                     "input_parameter": "kmer_size",
