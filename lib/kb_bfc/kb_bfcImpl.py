@@ -154,7 +154,9 @@ class kb_bfc:
         #create report
 
         report = ''
-        report += 'Successfully ran bfc, created object: '
+        report += 'Successfully ran bfc, with command: ' + ' '.join(bfc_cmd)
+        report += "\n"
+        report += 'created object: '
         report += out_reads_upa['obj_ref']
 
         print('Saving report')
