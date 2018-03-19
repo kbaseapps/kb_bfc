@@ -3,11 +3,12 @@
 import os
 import subprocess
 import shutil
+import uuid
 
 
 from pprint import pprint
 from ReadsUtils.ReadsUtilsClient import ReadsUtils
-
+from KBaseReport.KBaseReportClient import KBaseReport
 
 #END_HEADER
 
@@ -150,7 +151,28 @@ class kb_bfc:
                                         'source_reads_ref': input_reads_upa
                                         })
 
-        results = {'report_name': None, 'report_ref': None}
+        #create report
+
+        report = ''
+        report += 'Successfully ran bfc, created object: '
+        report += out_reads_upa['obj_ref']
+
+        print('Saving report')
+        kbr = KBaseReport(self.callbackURL)
+        try:
+            report_info = kbr.create_extended_report(
+                {
+                'message': report,
+                'objects_created': [{'ref': out_reads_upa['obj_ref'], 'description': 'Corrected reads'}],
+                'workspace_name':workspace_name,
+                #'direct_html_link_index':0,
+                'report_object_name': 'bfc_report_' + str(uuid.uuid4())
+                })
+        except:
+            print("exception from saving report")
+            raise
+
+        results = {'report_name': report_info['name'], 'report_ref': report_info['ref']}
 
         #END run_bfc
 
