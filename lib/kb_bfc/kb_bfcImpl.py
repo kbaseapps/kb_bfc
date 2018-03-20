@@ -83,6 +83,10 @@ class kb_bfc:
         if 'output_reads_name' not in params:
             raise ValueError('output_reads_name parameter is required')
 
+        if 'drop_unique_kmer_reads' in params:
+            if params['drop_unique_kmer_reads']:
+                bfc_cmd.append(str('-1'))
+
         if 'est_genome_size' in params:
             if params['est_genome_size']:
                 if 'est_genome_size_units' in params:
@@ -102,9 +106,7 @@ class kb_bfc:
                 else:
                     raise ValueError('kmer_size must be <= 63')
 
-        if 'drop_unique_kmer_reads' in params:
-            if params['drop_unique_kmer_reads']:
-                bfc_cmd.append(str('-1'))
+
 
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name']
