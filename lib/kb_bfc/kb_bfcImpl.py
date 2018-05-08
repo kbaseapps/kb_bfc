@@ -106,29 +106,27 @@ class kb_bfc:
                 else:
                     raise ValueError('kmer_size must be <= 63')
 
-
-
         input_reads_upa = params['input_reads_upa']
         output_reads_name = params['output_reads_name']
+        os.chdir(shared_dir)
 
-        output_reads_file = os.path.join(shared_dir, output_reads_name + ".fq")
-        bfc_output_file = os.path.join(shared_dir, "bfc_" + output_reads_name + ".fq")
-        seqtk_output_file = os.path.join(shared_dir, "seqtk_bfc_" + output_reads_name + ".fq")
+        output_reads_file = output_reads_name + ".fq"
+        bfc_output_file = "bfc_" + output_reads_name + ".fq"
+        seqtk_output_file = "seqtk_bfc_" + output_reads_name + ".fq"
         workspace_name = params['workspace_name']
 
-        #get the reads library as gzipped interleaved file
-        reads_params = {'read_libraries': [input_reads_upa],
-                        'interleaved': 'true',
-                        'gzipped': 'true'
-                        }
+        # get the reads library as gzipped interleaved file
+        reads_params = {'read_libraries': [input_reads_upa], 'interleaved': 'true',
+                        'gzipped': 'true'}
 
         ru = ReadsUtils(self.callbackURL)
         reads = ru.download_reads(reads_params)['files']
+        pprint(reads)
         input_reads_file = reads[input_reads_upa]['files']['fwd']
         print('Input reads files:')
         pprint('     ' + input_reads_file)
 
-        #hardcoding a couple parameters
+        # hardcoding a couple parameters
         bfc_cmd.append('-t')
         bfc_cmd.append(str(self.THREADS))
 
@@ -140,13 +138,13 @@ class kb_bfc:
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))
 
-        p=subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
+        p = subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
         retcode = p.wait()
 
         if p.returncode != 0:
             raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
 
-        #drop non-paired reads using seqtk
+        # drop non-paired reads using seqtk
 
         seqtk_cmd = [self.SEQTK, "dropse", bfc_output_file, ">", seqtk_output_file]
 
@@ -156,16 +154,15 @@ class kb_bfc:
         if p.returncode != 0:
             raise ValueError('Error running seqtk, return code: ' + str(retcode) + "\n")
 
-        #upload reads output
+        # upload reads output
         shutil.copy(seqtk_output_file, output_reads_file)
 
-        out_reads_upa = ru.upload_reads({'fwd_file': output_reads_file,
-                                        'interleaved': 1, 'wsname': workspace_name,
-                                        'name': output_reads_name,
-                                        'source_reads_ref': input_reads_upa
-                                        })
-
-        #create report
+        out_reads_upa = ru.upload_reads({'fwd_file': os.path.join(shared_dir, output_reads_file),
+                                         'interleaved': 1, 'wsname': workspace_name,
+                                         'name': output_reads_name,
+                                         'source_reads_ref': input_reads_upa})
+        pprint(out_reads_upa)
+        # create report
 
         report = ''
         report += 'Successfully ran bfc, with command: ' + ' '.join(bfc_cmd)
@@ -176,12 +173,11 @@ class kb_bfc:
         print('Saving report')
         kbr = KBaseReport(self.callbackURL)
         try:
-            report_info = kbr.create_extended_report(
-                {
+            report_info = kbr.create_extended_report({
                 'message': report,
-                'objects_created': [{'ref': out_reads_upa['obj_ref'], 'description': 'Corrected reads'}],
-                'workspace_name':workspace_name,
-                #'direct_html_link_index':0,
+                'objects_created': [{'ref': out_reads_upa['obj_ref'],
+                                     'description': 'Corrected reads'}],
+                'workspace_name': workspace_name,
                 'report_object_name': 'bfc_report_' + str(uuid.uuid4())
                 })
         except:
