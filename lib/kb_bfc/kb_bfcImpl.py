@@ -4,11 +4,18 @@ import os
 import subprocess
 import shutil
 import uuid
-
+import time
 
 from pprint import pprint
 from ReadsUtils.ReadsUtilsClient import ReadsUtils
 from KBaseReport.KBaseReportClient import KBaseReport
+
+
+def log(message, prefix_newline=False):
+    """
+    Logging function, provides a hook to suppress or redirect log messages.
+    """
+    print(('\n' if prefix_newline else '') + '{0:.2f}'.format(time.time()) + ': ' + str(message))
 
 #END_HEADER
 
@@ -37,6 +44,34 @@ class kb_bfc:
     SEQTK = '/kb/module/seqtk/seqtk'
 
     THREADS = 8
+
+    def run_command(self, command):
+        """
+        _run_command: run command and print result
+        """
+
+        log('Start executing command:\n{}'.format(command))
+        pipe = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        output = pipe.communicate()[0]
+        exitCode = pipe.returncode
+
+        if (exitCode == 0):
+            log('Executed command:\n{}\n'.format(command) +
+                'Exit Code: {}\nOutput:\n{}'.format(exitCode, output))
+        else:
+            error_msg = 'Error running command:\n{}\n'.format(command)
+            error_msg += 'Exit Code: {}\nOutput:\n{}'.format(exitCode, output)
+            raise ValueError(error_msg)
+        return output
+
+    def _count_lines(self, filename):
+        # https://gist.github.com/zed/0ac760859e614cd03652#file-gistfile1-py-L41
+        out = subprocess.Popen(['wc', '-l', filename],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT
+                               ).communicate()[0]
+        return int(out.partition(b' ')[0])
+
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -52,7 +87,6 @@ class kb_bfc:
 
         #END_CONSTRUCTOR
         pass
-
 
     def run_bfc(self, ctx, params):
         """
@@ -122,7 +156,7 @@ class kb_bfc:
         ru = ReadsUtils(self.callbackURL)
         reads = ru.download_reads(reads_params)['files']
         pprint(reads)
-        input_reads_file = reads[input_reads_upa]['files']['fwd']
+        input_reads_file = os.path.basename(reads[input_reads_upa]['files']['fwd'])
         print('Input reads files:')
         pprint('     ' + input_reads_file)
 
@@ -138,11 +172,12 @@ class kb_bfc:
         print('Running BFC:')
         print('     ' + ' '.join(bfc_cmd))
 
-        p = subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
-        retcode = p.wait()
+        bfc_cmd_output = self.run_command(' '.join(bfc_cmd))
+        #p = subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
+        #retcode = p.wait()
 
-        if p.returncode != 0:
-            raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
+        #if p.returncode != 0:
+        #    raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
 
         # drop non-paired reads using seqtk
 
@@ -165,12 +200,14 @@ class kb_bfc:
         # create report
 
         report = ''
-        report += 'Successfully ran bfc, with command: ' + ' '.join(bfc_cmd)
+        report += 'Successfully ran bfc, on input reads: ' + input_reads_upa
+        report += 'with command: ' + ' '.join(bfc_cmd)
         report += "\n"
+        report += bfc_cmd_output
         report += 'created object: '
         report += out_reads_upa['obj_ref']
 
-        print('Saving report')
+        print('Saving report', report)
         kbr = KBaseReport(self.callbackURL)
         try:
             report_info = kbr.create_extended_report({
@@ -194,6 +231,7 @@ class kb_bfc:
                              'results is not type dict as required.')
         # return the results
         return [results]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
