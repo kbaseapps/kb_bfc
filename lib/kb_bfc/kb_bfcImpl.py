@@ -64,14 +64,6 @@ class kb_bfc:
             raise ValueError(error_msg)
         return output
 
-    def _count_lines(self, filename):
-        # https://gist.github.com/zed/0ac760859e614cd03652#file-gistfile1-py-L41
-        out = subprocess.Popen(['wc', '-l', filename],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT
-                               ).communicate()[0]
-        return int(out.partition(b' ')[0])
-
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -109,7 +101,7 @@ class kb_bfc:
         bfc_cmd = [self.BFC]
         shared_dir = "/kb/module/work/tmp"
 
-        #validate parameters
+        # validate parameters
         if 'workspace_name' not in params:
             raise ValueError('workspace_name parameter is required')
         if 'input_reads_upa' not in params:
@@ -126,7 +118,8 @@ class kb_bfc:
                 if 'est_genome_size_units' in params:
                     if params['est_genome_size_units'] in ["G", "M", "K", "g", "m", "k"]:
                         bfc_cmd.append('-s')
-                        bfc_cmd.append(str(params['est_genome_size']) + str(params['est_genome_size_units']))
+                        bfc_cmd.append(str(params['est_genome_size']) +
+                                       str(params['est_genome_size_units']))
                     else:
                         raise ValueError('est_genome_size_units must be G, M or K')
                 else:
@@ -173,21 +166,11 @@ class kb_bfc:
         print('     ' + ' '.join(bfc_cmd))
 
         bfc_cmd_output = self.run_command(' '.join(bfc_cmd))
-        #p = subprocess.Popen(" ".join(bfc_cmd), cwd=self.scratch, shell=True)
-        #retcode = p.wait()
-
-        #if p.returncode != 0:
-        #    raise ValueError('Error running bfc, return code: ' + str(retcode) + "\n")
 
         # drop non-paired reads using seqtk
 
         seqtk_cmd = [self.SEQTK, "dropse", bfc_output_file, ">", seqtk_output_file]
-
-        p = subprocess.Popen(" ".join(seqtk_cmd), cwd=self.scratch, shell=True)
-        retcode = p.wait()
-
-        if p.returncode != 0:
-            raise ValueError('Error running seqtk, return code: ' + str(retcode) + "\n")
+        self.run_command(' '.join(seqtk_cmd))
 
         # upload reads output
         shutil.copy(seqtk_output_file, output_reads_file)
@@ -199,30 +182,20 @@ class kb_bfc:
         pprint(out_reads_upa)
         # create report
         ws = _Workspace(self.ws_url)
-        input_meta = ws.get_objects2({'objects': [{'ref':input_reads_upa}], 'no_data': 1})['data'][0]
-        print ("input reads metadata: \n")
+
+        input_meta = ws.get_objects2({'objects': [
+                                      {'ref': input_reads_upa}], 'no_data': 1})['data'][0]
         input_reads_name = input_meta['info'][1]
         input_reads_count = input_meta['info'][10]['read_count']
-        print ("input reads name: " + input_reads_name)
-        print ("input reads count: " + input_reads_count + "\n")
 
-        output_meta = ws.get_objects2({'objects': [{'ref':out_reads_upa['obj_ref']}], 'no_data': 1})['data'][0]
-        print ("output reads metadata: \n")
-        print ("output reads name: " + output_reads_name + "\n")
+        output_meta = ws.get_objects2({'objects': [
+                                      {'ref': out_reads_upa['obj_ref']}], 'no_data': 1})['data'][0]
         output_reads_count = output_meta['info'][10]['read_count']
-        print ("output reads count: " + output_reads_count + "\n")
 
-
-        report = ''
-        report += 'Successfully ran bfc, on input reads: ' + input_reads_name
-        report += "\n" + 'with command: ' + ' '.join(bfc_cmd)
-        report += "\n"
-        report += bfc_cmd_output
-        report += 'created object: ' + output_reads_name
-        report += "(" + out_reads_upa['obj_ref'] + ")"
-        report += "\n\n"
-        report += "input reads: " + input_reads_count + "\n"
-        report += "output reads: " + output_reads_count
+        report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
+        report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_cmd_output)
+        report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
+        report += 'input reads: {}\noutput reads: {}'.format(input_reads_count, output_reads_count)
 
         print('Saving report', report)
         kbr = KBaseReport(self.callbackURL)
