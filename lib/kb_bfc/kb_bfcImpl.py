@@ -166,7 +166,7 @@ class kb_bfc:
         log('     ' + ' '.join(bfc_cmd))
 
         bfc_cmd_output = self.run_command(' '.join(bfc_cmd))
-        log(bfc_cmd_output)
+
         # drop non-paired reads using seqtk
 
         seqtk_cmd = [self.SEQTK, "dropse", bfc_output_file, ">", seqtk_output_file]
