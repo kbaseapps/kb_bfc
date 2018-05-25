@@ -9,7 +9,7 @@ import time
 from pprint import pprint
 from ReadsUtils.ReadsUtilsClient import ReadsUtils
 from KBaseReport.KBaseReportClient import KBaseReport
-
+from Workspace.WorkspaceClient import Workspace as _Workspace
 
 def log(message, prefix_newline=False):
     """
@@ -81,7 +81,7 @@ class kb_bfc:
 
         self.scratch = os.path.abspath(config['scratch'])
         self.callbackURL = os.environ['SDK_CALLBACK_URL']
-
+        self.ws_url = config['workspace-url']
         if not os.path.exists(self.scratch):
             os.makedirs(self.scratch)
 
@@ -198,14 +198,31 @@ class kb_bfc:
                                          'source_reads_ref': input_reads_upa})
         pprint(out_reads_upa)
         # create report
+        ws = _Workspace(self.ws_url)
+        input_meta = ws.get_objects2({'objects': [{'ref':input_reads_upa}], 'no_data': 1})['data'][0]
+        print ("input reads metadata: \n")
+        input_reads_name = input_meta['info'][1]
+        input_reads_count = input_meta['info'][10]['read_count']
+        print ("input reads name: " + input_reads_name)
+        print ("input reads count: " + input_reads_count + "\n")
+
+        output_meta = ws.get_objects2({'objects': [{'ref':out_reads_upa['obj_ref']}], 'no_data': 1})['data'][0]
+        print ("output reads metadata: \n")
+        print ("output reads name: " + output_reads_name + "\n")
+        output_reads_count = output_meta['info'][10]['read_count']
+        print ("output reads count: " + output_reads_count + "\n")
+
 
         report = ''
-        report += 'Successfully ran bfc, on input reads: ' + input_reads_upa
-        report += 'with command: ' + ' '.join(bfc_cmd)
+        report += 'Successfully ran bfc, on input reads: ' + input_reads_name
+        report += "\n" + 'with command: ' + ' '.join(bfc_cmd)
         report += "\n"
         report += bfc_cmd_output
-        report += 'created object: '
-        report += out_reads_upa['obj_ref']
+        report += 'created object: ' + output_reads_name
+        report += "(" + out_reads_upa['obj_ref'] + ")"
+        report += "\n\n"
+        report += "input reads: " + input_reads_count + "\n"
+        report += "output reads: " + output_reads_count
 
         print('Saving report', report)
         kbr = KBaseReport(self.callbackURL)
