@@ -96,7 +96,7 @@ class kb_bfc:
         # return variables are: results
         #BEGIN run_bfc
 
-        print('Running run_bfc with params=')
+        log('Running run_bfc with params=')
         pprint(params)
         bfc_cmd = [self.BFC]
         shared_dir = "/kb/module/work/tmp"
@@ -148,10 +148,10 @@ class kb_bfc:
 
         ru = ReadsUtils(self.callbackURL)
         reads = ru.download_reads(reads_params)['files']
-        pprint(reads)
+        log(reads)
         input_reads_file = os.path.basename(reads[input_reads_upa]['files']['fwd'])
-        print('Input reads files:')
-        pprint('     ' + input_reads_file)
+        log('Input reads files:')
+        log('     ' + input_reads_file)
 
         # hardcoding a couple parameters
         bfc_cmd.append('-t')
@@ -162,11 +162,11 @@ class kb_bfc:
         bfc_cmd.append('>')
         bfc_cmd.append(bfc_output_file)
 
-        print('Running BFC:')
-        print('     ' + ' '.join(bfc_cmd))
+        log('Running BFC:')
+        log('     ' + ' '.join(bfc_cmd))
 
         bfc_cmd_output = self.run_command(' '.join(bfc_cmd))
-
+        log(bfc_cmd_output)
         # drop non-paired reads using seqtk
 
         seqtk_cmd = [self.SEQTK, "dropse", bfc_output_file, ">", seqtk_output_file]
@@ -179,7 +179,6 @@ class kb_bfc:
                                          'interleaved': 1, 'wsname': workspace_name,
                                          'name': output_reads_name,
                                          'source_reads_ref': input_reads_upa})
-        pprint(out_reads_upa)
         # create report
         ws = _Workspace(self.ws_url)
 
@@ -197,7 +196,7 @@ class kb_bfc:
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
         report += 'input reads: {}\noutput reads: {}'.format(input_reads_count, output_reads_count)
 
-        print('Saving report', report)
+        log('Saving report')
         kbr = KBaseReport(self.callbackURL)
         try:
             report_info = kbr.create_extended_report({
