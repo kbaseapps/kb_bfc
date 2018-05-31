@@ -7,8 +7,8 @@ import uuid
 import time
 
 from pprint import pprint
-from ReadsUtils.ReadsUtilsClient import ReadsUtils
-from KBaseReport.KBaseReportClient import KBaseReport
+from ReadsUtils.ReadsUtilsClient import ReadsUtils as _ReadsUtils
+from KBaseReport.KBaseReportClient import KBaseReport as _KBaseReport
 from Workspace.WorkspaceClient import Workspace as _Workspace
 
 def log(message, prefix_newline=False):
@@ -146,7 +146,7 @@ class kb_bfc:
         reads_params = {'read_libraries': [input_reads_upa], 'interleaved': 'true',
                         'gzipped': 'true'}
 
-        ru = ReadsUtils(self.callbackURL)
+        ru = _ReadsUtils(self.callbackURL)
         reads = ru.download_reads(reads_params)['files']
         log(reads)
         input_reads_file = os.path.basename(reads[input_reads_upa]['files']['fwd'])
@@ -191,24 +191,22 @@ class kb_bfc:
                                       {'ref': out_reads_upa['obj_ref']}], 'no_data': 1})['data'][0]
         output_reads_count = output_meta['info'][10]['read_count']
 
+        bfc_main = '\n'.join([l for l in bfc_cmd_output.split('\n') if l.startswith('[M::main')])
+
         report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
-        report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_cmd_output)
+        report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_main)
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
         report += 'input reads: {}\noutput reads: {}'.format(input_reads_count, output_reads_count)
 
         log('Saving report')
-        kbr = KBaseReport(self.callbackURL)
-        try:
-            report_info = kbr.create_extended_report({
-                'message': report,
-                'objects_created': [{'ref': out_reads_upa['obj_ref'],
-                                     'description': 'Corrected reads'}],
-                'workspace_name': workspace_name,
-                'report_object_name': 'bfc_report_' + str(uuid.uuid4())
-                })
-        except:
-            print("exception from saving report")
-            raise
+        kbr = _KBaseReport(self.callbackURL)
+        report_info = kbr.create_extended_report({
+            'message': report,
+            'objects_created': [{'ref': out_reads_upa['obj_ref'],
+                                 'description': 'Corrected reads'}],
+            'workspace_name': workspace_name,
+            'report_object_name': 'bfc_report_' + str(uuid.uuid4())
+            })
 
         results = {'report_name': report_info['name'], 'report_ref': report_info['ref']}
 
