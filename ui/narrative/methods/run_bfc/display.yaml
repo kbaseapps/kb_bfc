@@ -53,6 +53,8 @@ parameters :
             Drop reads with unique Kmers?
         short-hint : |
             reads containing unique Kmers will be dropped if checked.
+        long-hint : |
+            Reads containing unique Kmers will be dropped, any unpaired reads will also be dropped.
     est_genome_size :
         ui-name : |
             Estimated genome size
@@ -66,4 +68,32 @@ parameters :
 
 
 description : |
-    <p>This will use the BFC program to error correct short illumina reads.</p>
+    <p>
+    This is a KBase wrapper for the
+    <a href="https://github.com/lh3/bfc" target="_blank">BFC</a>
+    Illumina short read error correction tool.
+    </p>
+
+    <p>
+    BFC is a fast and easy-to-use sequencing error corrector designed for Illumina short reads.
+    It uses a non-greedy algorithm but still maintains a speed comparable to implementations based on greedy methods.
+    In evaluations on real data, BFC appears to correct more errors with fewer overcorrections in comparison
+    to existing tools. It particularly does well in suppressing systematic sequencing errors, which helps
+    to improve the base accuracy of de novo assemblies.
+    </p>
+
+    <p>
+    BFC version: r181
+    </p>
+
+    <p>
+    If the option to drop reads with unique kmers is selected, then any unpaired reads will also be removed.
+    </p>
+
+
+publications :
+    -
+        display-text: |
+            Li H. BFC: correcting Illumina sequencing errors. Bioinformatics. 2015 Sep 1;31(17):2885-7.
+        link: https://www.ncbi.nlm.nih.gov/pubmed/25953801
+        pmid: 25953801
