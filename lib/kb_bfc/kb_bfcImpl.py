@@ -36,8 +36,8 @@ class kb_bfc:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/psdehal/kb_bfc.git"
-    GIT_COMMIT_HASH = "4807d73b84af6bd6583dd2db8dc7d04b8e15efc3"
+    GIT_URL = "https://github.com/CheyenneNS/kb_bfc"
+    GIT_COMMIT_HASH = "f2393d57b025d46eb47ccd8f43cfb94d9bf24f84"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -80,16 +80,12 @@ class kb_bfc:
         #END_CONSTRUCTOR
         pass
 
+
     def run_bfc(self, ctx, params):
         """
-        :param params: instance of type "BFCParams" -> structure: parameter
-           "input_reads_upa" of type "reads_upa" (unique permanent address of
-           reads object), parameter "workspace_name" of String, parameter
-           "output_reads_name" of String, parameter "kmer_size" of Long,
-           parameter "drop_unique_kmer_reads" of type "bool" (A boolean. 0 =
-           false, anything else = true.), parameter "est_genome_size" of
-           Long, parameter "est_genome_size_units" of String
-        :returns: instance of type "BFCResults" -> structure: parameter
+        BFC (Bloom Filter) error correcting app for sequencing errors in llluminia short reads.
+        :param params: instance of mapping from String to unspecified object
+        :returns: instance of type "ReportBFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
         # ctx is the context object
@@ -191,12 +187,16 @@ class kb_bfc:
                                       {'ref': out_reads_upa['obj_ref']}], 'no_data': 1})['data'][0]
         output_reads_count = output_meta['info'][10]['read_count']
 
+        # get total filtered reads
+        filtered_reads = int(output_reads_count) - int(input_reads_count)
+        filtered_reads = str(filtered_reads)
+
         bfc_main = '\n'.join([l for l in bfc_cmd_output.split('\n') if l.startswith('[M::main')])
 
         report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
         report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_main)
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
-        report += 'input reads: {}\noutput reads: {}'.format(input_reads_count, output_reads_count)
+        report += 'input reads: {}\nfiltered reads: {} \noutput reads: {}'.format(input_reads_count, filtered_reads, output_reads_count)
 
         log('Saving report')
         kbr = _KBaseReport(self.callbackURL)
@@ -218,7 +218,6 @@ class kb_bfc:
                              'results is not type dict as required.')
         # return the results
         return [results]
-
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
