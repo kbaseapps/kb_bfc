@@ -97,6 +97,61 @@ class kb_bfcTest(unittest.TestCase):
 
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
+
+    def test_missing_params(self):
+        impl = self.serviceImpl
+        ctx = self.ctx
+        ws = self.wsName
+        # figure out where the test data lives
+        pe_lib_info = self.getPairedEndLibInfo()
+        pprint(pe_lib_info)
+
+        # Missing input_reads, output_reads, workspacename
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'workspace_name': ws,
+                               "output_reads_name": "test_out", "kmer_size": 30,
+                                "drop_unique_kmer_reads" : "1", "est_genome_size": 20,
+                                "est_genome_size_units": "M" })
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1], 'workspace_name': ws,
+                                "kmer_size": 30, "drop_unique_kmer_reads": "1",
+                                "est_genome_size": 20,
+                                "est_genome_size_units": "M"})
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
+                               "output_reads_name": "test_out",
+                                "kmer_size": 30, "drop_unique_kmer_reads": "1",
+                                "est_genome_size": 20,
+                                "est_genome_size_units": "M"})
+
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1], 'workspace_name': ws,
+                               "output_reads_name": "test_out",
+                                "kmer_size": 30, "drop_unique_kmer_reads": "1",
+                                "est_genome_size": 20 })
+
+    def test_invalid_params(self):
+        impl = self.serviceImpl
+        ctx = self.ctx
+        ws = self.wsName
+        # figure out where the test data lives
+        pe_lib_info = self.getPairedEndLibInfo()
+        pprint(pe_lib_info)
+
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
+                               'workspace_name': ws,
+                               "output_reads_name": "test_out", "kmer_size": 30,
+                               "drop_unique_kmer_reads": "1", "est_genome_size": 20,
+                               "est_genome_size_units": "F"})
+
+        with self.assertRaises(ValueError):
+            impl.run_bfc(ctx, {'input_reads_upa': pe_lib_info[7] + '/' + pe_lib_info[1],
+                               'workspace_name': ws,
+                               "output_reads_name": "test_out", "kmer_size": 64,
+                               "drop_unique_kmer_reads": "1", "est_genome_size": 20,
+                               "est_genome_size_units": "F"})
+
     def test_bfc(self):
         # Prepare test objects in workspace if needed using
         # self.getWsClient().save_objects({'workspace': self.getWsName(),
