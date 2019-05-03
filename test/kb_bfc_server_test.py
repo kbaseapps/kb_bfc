@@ -150,7 +150,8 @@ class kb_bfcTest(unittest.TestCase):
                                'workspace_name': ws,
                                "output_reads_name": "test_out", "kmer_size": 64,
                                "drop_unique_kmer_reads": "1", "est_genome_size": 20,
-                               "est_genome_size_units": "F"})
+                               "est_genome_size_units": "M"})
+
 
     def test_bfc(self):
         # Prepare test objects in workspace if needed using
