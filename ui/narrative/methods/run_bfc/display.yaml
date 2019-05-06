@@ -85,7 +85,7 @@ description : |
     The BFC, Bloom Filter Correction, algorithm is a fast and easy-to-use error correcting (EC) tool for sequencing errors in Illumina short reads data.
     It uses a non-greedy algorithm, but still maintains a speed comparable to implementations based on greedy methods.
     Given the greedy algorithm approach of applying corrections based on the local sequence context and never reverting
-    the correction decision once it's made, the greedy algorithm strategy will thus not be as accurate when filtering repetition
+    the correction decision once it's been made; the greedy algorithm strategy will thus not be as accurate when filtering repetition
     rich genomes, such as diploid genomes. In evaluations on real data, BFC appears to correct more errors with fewer
     overcorrections in comparison to existing tools. It particularly does well in suppressing systematic sequencing
     errors, which helps to improve the base accuracy of de novo assemblies.
@@ -96,7 +96,7 @@ description : |
     to find a k-mer path through an optimal read. First, it finds the longest substring on which each k-mer is a trusted k-mer.
     It then extends both ends of the read with the substring. If a read does not contain any trusted k-mers substrings, then BFC
     iterates through all k-mers that are one mismatch away from the first k-mer on the read to find a trusted k-mer. The read is
-    marked as uncorrectable if none or multiple trusted k-mers are found in this way. As an EC tool the BFC algorithm is a high-performance
+    marked as uncorrectable if none or multiple trusted k-mers are found in this way. As an EC tool, the BFC algorithm is a high-performance
     standalone tool for correcting sequencing errors from Illumina sequencing data.
     </p>
 
