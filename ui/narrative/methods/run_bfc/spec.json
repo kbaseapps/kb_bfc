@@ -1,6 +1,7 @@
 {
     "ver": "0.0.1",
     "authors": [
+        "cnelson",
         "psdehal"
     ],
     "contact": "https://kbase.us/contact-us/",
@@ -9,6 +10,21 @@
         "input": null,
         "output": "no-display"
     },
+
+   "parameter-groups": [
+        {
+          "id": "genome_specs",
+          "parameters": [
+            "est_genome_size",
+            "est_genome_size_units"
+
+          ],
+          "optional": false,
+          "advanced": false,
+          "allow_multiple": true
+      }
+    ],
+
     "parameters": [
         {
             "id": "input_reads_upa",
@@ -39,26 +55,58 @@
                 ]
             }
         },
+
         {
-          "id": "est_genome_size",
-          "optional": true,
-          "advanced": true,
+           "id": "kmer_size",
+           "optional": true,
+           "advanced": false,
+           "allow_multiple": false,
+           "default_values": ["33"],
+           "field_type": "text",
+              "text_options": {
+                  "validate_as": "int"
+           }
+        },
+      {
+          "id": "drop_unique_kmer_reads",
+          "optional": false,
+          "advanced": false,
           "allow_multiple": false,
-          "default_values": [ "" ],
+          "default_values": [
+            "0"
+          ],
+          "field_type": "checkbox",
+          "checkbox_options": {
+            "checked_value": "1",
+            "unchecked_value": "0"
+          }
+      },
+
+      {
+          "id": "est_genome_size",
+          "optional": false,
+          "advanced": false,
+          "allow_multiple": false,
+          "default_values": [
+            ""
+          ],
           "field_type": "text",
           "text_options": {
-              "validate_as": "int"
+            "validate_as": "int"
           }
-        },
+      },
         {
           "id": "est_genome_size_units",
-          "optional": true,
-          "advanced": true,
+          "optional": false,
+          "advanced": false,
           "allow_multiple": false,
-          "default_values": [ "G" ],
+          "default_values": [
+            "G"
+          ],
           "field_type": "dropdown",
-          "dropdown_options":{
-            "options": [{
+          "dropdown_options": {
+            "options": [
+              {
                 "value": "G",
                 "display": "gigabases"
               },
@@ -71,32 +119,10 @@
                 "display": "kilobases"
               }
             ]
-          }
-        },
-        {
-          "id": "kmer_size",
-          "optional": true,
-          "advanced": true,
-          "allow_multiple": false,
-          "default_values": ["33"],
-          "field_type": "text",
-              "text_options": {
-                  "validate_as": "int"
-          }
-        },
-        {
-          "id": "drop_unique_kmer_reads",
-          "optional": true,
-          "advanced": true,
-          "allow_multiple": false,
-          "default_values": ["0"],
-          "field_type": "checkbox",
-          "checkbox_options": {
-              "checked_value": "1",
-              "unchecked_value": "0"
-          }
         }
+      }
     ],
+
     "behavior": {
         "service-mapping": {
             "url": "",
