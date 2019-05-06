@@ -37,7 +37,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/CheyenneNS/kb_bfc"
-    GIT_COMMIT_HASH = "f2393d57b025d46eb47ccd8f43cfb94d9bf24f84"
+    GIT_COMMIT_HASH = "bf27e19664221a9fbd7c90167c644e02659b0e43"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -188,15 +188,16 @@ class kb_bfc:
         output_reads_count = output_meta['info'][10]['read_count']
 
         # get total filtered reads
-        filtered_reads = int(output_reads_count) - int(input_reads_count)
+        filtered_reads = int(input_reads_count) - int(output_reads_count)
         filtered_reads = str(filtered_reads)
+        k_mer_size = str(params['kmer_size'])
 
         bfc_main = '\n'.join([l for l in bfc_cmd_output.split('\n') if l.startswith('[M::main')])
 
         report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
         report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_main)
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
-        report += 'input reads: {}\nfiltered reads: {} \noutput reads: {}'.format(input_reads_count, filtered_reads, output_reads_count)
+        report += 'input reads: {}\n k-mer size: {}\n filtered reads: {} \noutput reads: {}'.format(input_reads_count, k_mer_size, filtered_reads, output_reads_count)
 
         log('Saving report')
         kbr = _KBaseReport(self.callbackURL)
