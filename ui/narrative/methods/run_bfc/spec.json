@@ -59,7 +59,7 @@
 
         {
            "id": "kmer_size",
-           "optional": true,
+           "optional": false,
            "advanced": false,
            "allow_multiple": false,
            "default_values": ["33"],

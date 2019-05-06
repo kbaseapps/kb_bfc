@@ -36,8 +36,8 @@ class kb_bfc:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/CheyenneNS/kb_bfc"
-    GIT_COMMIT_HASH = "2f3e6751f64b0738ff6cc89d7f431fea243c78d2"
+    GIT_URL = "https://github.com/psdehal/kb_bfc"
+    GIT_COMMIT_HASH = "6a7ea0d536e11cb72283ce5229cd1b9bb68aafae"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
