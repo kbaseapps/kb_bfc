@@ -110,7 +110,7 @@ description : |
 
     <p>
     The output data of the BFC tool are: your corrected read, the number of reads filtered, the number of output reads, and the k-mer sized used.
-   </p>
+    </p>
 
 
 publications :
