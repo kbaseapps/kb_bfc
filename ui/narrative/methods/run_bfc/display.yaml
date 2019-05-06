@@ -82,11 +82,22 @@ description : |
     </p>
 
     <p>
-    BFC is a fast and easy-to-use sequencing error corrector designed for Illumina short reads.
-    It uses a non-greedy algorithm but still maintains a speed comparable to implementations based on greedy methods.
-    In evaluations on real data, BFC appears to correct more errors with fewer overcorrections in comparison
-    to existing tools. It particularly does well in suppressing systematic sequencing errors, which helps
-    to improve the base accuracy of de novo assemblies.
+    The BFC, Bloom Filter Correction, algorithm is a fast and easy-to-use error correcting (EC) tool for sequencing errors in Illumina short reads data.
+    It uses a non-greedy algorithm, but still maintains a speed comparable to implementations based on greedy methods.
+    Given the greedy algorithm approach of applying corrections based on the local sequence context and never reverting
+    the correction decision once it's made, the greedy algorithm strategy will thus not be as accurate when filtering repetition
+    rich genomes, such as diploid genomes. In evaluations on real data, BFC appears to correct more errors with fewer
+    overcorrections in comparison to existing tools. It particularly does well in suppressing systematic sequencing
+    errors, which helps to improve the base accuracy of de novo assemblies.
+    </p>
+
+    <p>
+    The BFC algorithm is a variant of the classical spectrum alignment algorithm. Given a read, it uses an exhautive search
+    to find a k-mer path through an optimal read. First, it finds the longest substring on which each k-mer is a trusted k-mer.
+    It then extends both ends of the read with the substring. If a read does not contain any trusted k-mers substrings, then BFC
+    iterates through all k-mers that are one mismatch away from the first k-mer on the read to find a trusted k-mer. The read is
+    marked as uncorrectable if none or multiple trusted k-mers are found in this way. As an EC tool the BFC algorithm is a high-performance
+    standalone tool for correcting sequencing errors from Illumina sequencing data.
     </p>
 
     <p>
@@ -94,8 +105,12 @@ description : |
     </p>
 
     <p>
-    If the option to drop reads with unique kmers is selected, then any unpaired reads will also be removed.
+    The option to drop reads with unique kmers is selected by default. Thus, any unpaired reads will also by default be removed.
     </p>
+
+    <p>
+    The output data of the BFC tool are: your corrected read, the number of reads filtered, the number of output reads, and the k-mer sized used.
+   </p>
 
 
 publications :
