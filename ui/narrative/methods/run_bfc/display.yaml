@@ -55,16 +55,23 @@ parameters :
             reads containing unique Kmers will be dropped if checked.
         long-hint : |
             Reads containing unique Kmers will be dropped, any unpaired reads will also be dropped.
-    est_genome_size :
-        ui-name : |
+    est_genome_size:
+        ui-name: |
             Estimated genome size
-        short-hint : |
+        short-hint: |
             Estimated genome size, used to set Kmer size and bloom filter size.
-    est_genome_size_units :
-        ui-name : |
+    est_genome_size_units:
+        ui-name: |
             Units for genome estimate
-        short-hint : |
+        short-hint: |
             Gigabases, megabases or Kilobases
+
+parameter-groups:
+  genome_specs:
+    ui-name: |
+      Genome parameters to set
+    short-hint: |
+      Genome parameters to set: genome size with units.
 
 
 description : |
