@@ -37,7 +37,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbaseapps/kb_bfc"
-    GIT_COMMIT_HASH = "4116d523524eea68bcc5bf9e0aae301a6dd624b7"
+    GIT_COMMIT_HASH = "973a6c3be203ba2b3524968b053dbf317fb8f4fa"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -197,7 +197,7 @@ class kb_bfc:
         report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
         report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_main)
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
-        report += 'input reads: {}\n k-mer size: {}\n filtered reads: {}\n output reads: {}'.format(input_reads_count, ',d', k_mer_size, filtered_reads, ',d', output_reads_count, ',d')
+        report += 'input reads: {:,d}\n k-mer size: {}\n filtered reads: {:,d}\n output reads: {:,d}'.format(input_reads_count, k_mer_size, filtered_reads, output_reads_count )
 
         log('Saving report')
         kbr = _KBaseReport(self.callbackURL)
