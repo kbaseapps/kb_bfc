@@ -11,6 +11,8 @@ from ReadsUtils.ReadsUtilsClient import ReadsUtils as _ReadsUtils
 from KBaseReport.KBaseReportClient import KBaseReport as _KBaseReport
 from Workspace.WorkspaceClient import Workspace as _Workspace
 
+#from util.FILENAME import list of functions I care about
+
 def log(message, prefix_newline=False):
     """
     Logging function, provides a hook to suppress or redirect log messages.
@@ -37,7 +39,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbaseapps/kb_bfc"
-    GIT_COMMIT_HASH = "4116d523524eea68bcc5bf9e0aae301a6dd624b7"
+    GIT_COMMIT_HASH = "4c4d60511ede13b469aeccfd5cb72b219a14a9e3"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
@@ -189,7 +191,13 @@ class kb_bfc:
 
         # get total filtered reads
         filtered_reads = int(input_reads_count) - int(output_reads_count)
+        
+        # add commas for readability
+        input_reads_count = "{:,}".format(int(input_reads_count))
+        output_reads_count = "{:,}".format(int(output_reads_count))
+        filtered_reads = "{:,}".format(filtered_reads)
         filtered_reads = str(filtered_reads)
+
         k_mer_size = str(params['kmer_size'])
 
         bfc_main = '\n'.join([l for l in bfc_cmd_output.split('\n') if l.startswith('[M::main')])
