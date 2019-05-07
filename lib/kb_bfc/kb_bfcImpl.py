@@ -205,7 +205,7 @@ class kb_bfc:
         report = 'Successfully ran bfc, on input reads: {}\n'.format(input_reads_name)
         report += 'with command: {}\n\n{}\n'.format(' '.join(bfc_cmd), bfc_main)
         report += 'created object: {}({})\n\n'.format(output_reads_name, out_reads_upa['obj_ref'])
-        report += 'input reads: {}\n k-mer size: {}\n filtered reads: {}\n output reads: {}'.format(input_reads_count, k_mer_size, filtered_reads, output_reads_count )
+        report += ' input reads: {}\n k-mer size: {}\n filtered reads: {}\n output reads: {}'.format(input_reads_count, k_mer_size, filtered_reads, output_reads_count )
 
         log('Saving report')
         kbr = _KBaseReport(self.callbackURL)
