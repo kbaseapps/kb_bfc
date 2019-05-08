@@ -11,6 +11,7 @@ import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonClientCaller;
 import us.kbase.common.service.JsonClientException;
 import us.kbase.common.service.RpcContext;
+import us.kbase.common.service.UObject;
 import us.kbase.common.service.UnauthorizedException;
 
 /**
@@ -165,17 +166,18 @@ public class KbBfcClient {
     /**
      * <p>Original spec-file function name: run_bfc</p>
      * <pre>
+     * BFC (Bloom Filter) error correcting app for sequencing errors in llluminia short reads.
      * </pre>
-     * @param   params   instance of type {@link us.kbase.kbbfc.BFCParams BFCParams}
-     * @return   parameter "results" of type {@link us.kbase.kbbfc.BFCResults BFCResults}
+     * @param   params   instance of mapping from String to unspecified object
+     * @return   parameter "results" of type {@link us.kbase.kbbfc.ReportBFCResults ReportBFCResults}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public BFCResults runBfc(BFCParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public ReportBFCResults runBfc(Map<String,UObject> params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
-        TypeReference<List<BFCResults>> retType = new TypeReference<List<BFCResults>>() {};
-        List<BFCResults> res = caller.jsonrpcCall("kb_bfc.run_bfc", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        TypeReference<List<ReportBFCResults>> retType = new TypeReference<List<ReportBFCResults>>() {};
+        List<ReportBFCResults> res = caller.jsonrpcCall("kb_bfc.run_bfc", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
     }
 

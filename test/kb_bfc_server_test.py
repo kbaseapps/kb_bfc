@@ -18,8 +18,8 @@ from pprint import pprint  # noqa: F401
 from biokbase.workspace.client import Workspace as workspaceService
 from kb_bfc.kb_bfcImpl import kb_bfc
 from kb_bfc.kb_bfcServer import MethodContext
-from kb_bfc.authclient import KBaseAuth as _KBaseAuth
-from ReadsUtils.ReadsUtilsClient import ReadsUtils
+from installed_clients.authclient import KBaseAuth as _KBaseAuth
+from installed_clients.ReadsUtilsClient import ReadsUtils
 
 
 class kb_bfcTest(unittest.TestCase):

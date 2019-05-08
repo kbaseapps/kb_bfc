@@ -11,7 +11,7 @@ from __future__ import print_function
 # package or not. This makes pep8 unhappy hence the annotations.
 try:
     # baseclient and this client are in a package
-    from .baseclient import BaseClient as _BaseClient  # @UnusedImport
+    from baseclient import BaseClient as _BaseClient  # @UnusedImport
 except:
     # no they aren't
     from baseclient import BaseClient as _BaseClient  # @Reimport
