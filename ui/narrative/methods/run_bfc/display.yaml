@@ -95,9 +95,10 @@ description : |
     The BFC algorithm is a variant of the classical spectrum alignment algorithm. Given a read, it uses an exhautive search
     to find a k-mer path through an optimal read. First, it finds the longest substring on which each k-mer is a trusted k-mer.
     It then extends both ends of the read with the substring. If a read does not contain any trusted k-mers substrings, then
-    all k-mers that are one mismatch away from the first k-mer on the read are iterated through to find a trusted k-mer. The read is
-    marked as uncorrectable if none or multiple trusted k-mers are found in this way. As an EC tool, the BFC algorithm is a high-performance
-    standalone tool for correcting sequencing errors from Illumina sequencing data.
+    all k-mers that are one mismatch away from the first k-mer on the read are iterated through to find a trusted k-mer. In this way
+    it finds a trusted k-mer path through a read that minimizes the heuristic objective function of the algorithm, while jointly considering
+    penalties on the correction, quality, and k-mer support. The read is marked as uncorrectable if none or multiple trusted k-mers are found
+    in this way. As an EC tool, the BFC algorithm is a high-performance standalone tool for correcting sequencing errors from Illumina sequencing data.
     </p>
 
     <p>
