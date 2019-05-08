@@ -69,7 +69,7 @@ parameters :
 parameter-groups:
   genome_specs:
     ui-name: |
-      Genome parameters to set
+      Set genome size:
     short-hint: |
       Genome parameters to set: genome size with units.
 
