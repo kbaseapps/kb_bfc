@@ -11,7 +11,7 @@ from __future__ import print_function
 # package or not. This makes pep8 unhappy hence the annotations.
 try:
     # baseclient and this client are in a package
-    from baseclient import BaseClient as _BaseClient  # @UnusedImport
+    from .baseclient import BaseClient as _BaseClient  # @UnusedImport
 except ImportError:
     # no they aren't
     from baseclient import BaseClient as _BaseClient  # @Reimport
@@ -23,15 +23,21 @@ class kb_bfc(object):
             self, url=None, timeout=30 * 60, user_id=None,
             password=None, token=None, ignore_authrc=False,
             trust_all_ssl_certificates=False,
-            auth_svc='https://ci.kbase.us/services/auth/api/legacy/KBase/Sessions/Login'):
+            auth_svc='https://ci.kbase.us/services/auth/api/legacy/KBase/Sessions/Login',
+            service_ver='release',
+            async_job_check_time_ms=100, async_job_check_time_scale_percent=150, 
+            async_job_check_max_time_ms=300000):
         if url is None:
             raise ValueError('A url is required')
-        self._service_ver = None
+        self._service_ver = service_ver
         self._client = _BaseClient(
             url, timeout=timeout, user_id=user_id, password=password,
             token=token, ignore_authrc=ignore_authrc,
             trust_all_ssl_certificates=trust_all_ssl_certificates,
-            auth_svc=auth_svc)
+            auth_svc=auth_svc,
+            async_job_check_time_ms=async_job_check_time_ms,
+            async_job_check_time_scale_percent=async_job_check_time_scale_percent,
+            async_job_check_max_time_ms=async_job_check_max_time_ms)
 
     def run_bfc(self, params, context=None):
         """
@@ -40,9 +46,9 @@ class kb_bfc(object):
         :returns: instance of type "ReportBFCResults" -> structure: parameter
            "report_name" of String, parameter "report_ref" of String
         """
-        return self._client.call_method('kb_bfc.run_bfc',
-                                        [params], self._service_ver, context)
+        return self._client.run_job('kb_bfc.run_bfc',
+                                    [params], self._service_ver, context)
 
     def status(self, context=None):
-        return self._client.call_method('kb_bfc.status',
-                                        [], self._service_ver, context)
+        return self._client.run_job('kb_bfc.status',
+                                    [], self._service_ver, context)

@@ -1,4 +1,12 @@
 [ {
+  "module_name" : "GenomeFileUtil",
+  "type" : "sdk",
+  "version_tag" : "release"
+}, {
+  "module_name" : "kb_bfc",
+  "type" : "sdk",
+  "version_tag" : "release"
+}, {
   "module_name" : "KBaseReport",
   "type" : "sdk",
   "version_tag" : "release"
@@ -9,5 +17,5 @@
 }, {
   "module_name" : "Workspace",
   "type" : "core",
-  "file_path" : "https://raw.githubusercontent.com/kbase/workspace_deluxe/dev-candidate/workspace.spec"
+  "file_path" : "https://raw.githubusercontent.com/kbase/workspace_deluxe/master/workspace.spec"
 } ]

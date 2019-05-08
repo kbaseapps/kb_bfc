@@ -39,7 +39,7 @@ class kb_bfc:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/kbaseapps/kb_bfc"
-    GIT_COMMIT_HASH = "576cc0a0fc9f49a4b3c93c83ac1a53138b8de580"
+    GIT_COMMIT_HASH = "5259ad0415d84843f7561cf3c34a61a96836200f"
 
     #BEGIN_CLASS_HEADER
     BFC = '/kb/module/bfc/bfc'
